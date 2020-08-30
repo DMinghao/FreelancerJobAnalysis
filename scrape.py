@@ -25,9 +25,9 @@ def scrapePage(num):
         summaries.append(x.get_text().strip())
 
     for x in soup.findAll("div", {"class": "JobSearchCard-primary-tags"}):
-        group = ""
+        group = []
         for y in x.findAll("a", {"class": "JobSearchCard-primary-tagsLink"}):
-            group = group + " " + y.get_text().strip()
+            group.append(y.get_text().strip())
         tags.append(group)
 
     for x in soup.findAll("div", {"class": "JobSearchCard-secondary-price"}):
