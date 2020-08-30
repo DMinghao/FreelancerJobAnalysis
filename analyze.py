@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import nltk
-# nltk.download('punkt')
+nltk.download('punkt')
 import os
 import nltk.corpus
 from nltk.probability import FreqDist
@@ -11,8 +11,7 @@ from nltk.tokenize import word_tokenize
 result = pd.read_csv("result.csv") 
 
 Tags = result["Tag"]
-print(Tags.head(5))
-print()
+print(Tags)
 
 allTag = ""
 for row in result.index: 
