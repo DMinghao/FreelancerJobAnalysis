@@ -1,6 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import os
+from tqdm import tqdm
+import math
+
 
 def scrapePage(num):
     titles = []
@@ -52,13 +56,33 @@ def scrapePage(num):
         except:
             pass
 
-    print(f"page: {num}")
 
-
+if os.path.exists("result.csv"):
+      os.remove("result.csv")
 with open('result.csv', 'a', encoding="utf-8", newline='') as f:
     writer = csv.writer(f)
     row = ["Title", "Description", "Tag", "Price/Budget", "Bids/Entries"]
     writer.writerow(row)
 
-for x in range(1, 203):
+URL = f"https://www.freelancer.com/jobs/?results=100"
+
+headers = {
+    "User-Agent": 'Chrome'
+}
+
+page = requests.get(URL, headers=headers)
+
+soup = BeautifulSoup(page.content, 'html.parser')
+
+numOfPage = soup.find("span", {"id": "total-results"}).get_text().strip().replace(',','')
+
+print(f"Total Job Count: {numOfPage}")
+
+numOfPage = int(1+math.ceil(int(numOfPage)/100))
+
+print(f"Total Page Count: {numOfPage-1}")
+
+for x in tqdm(range(1, numOfPage)):
     scrapePage(x)
+
+print("Done")
